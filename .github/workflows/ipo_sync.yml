@@ -1,0 +1,23 @@
+name: IPO Notion Sync
+
+on:
+  schedule:
+    - cron: '0 3,15 * * *' # 3:00 AM and 3:00 PM UTC (8:30 AM / 8:30 PM IST)
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  sync_ipos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run IPO Script
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: python check_ipos.py
